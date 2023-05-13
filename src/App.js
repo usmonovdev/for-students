@@ -1,11 +1,20 @@
 import './App.css';
-import Bola from './components/Bola';
+import { useFetchData } from './hooks/useFetchData';
+const url = "https://jsonplaceholder.typicode.com/users"
 
 function App() {
+  const { response, isLoading } = useFetchData(url)
   return (
-    <>
-      <Bola />
-    </>
+    <div>
+      <h1>{isLoading ? "Loading..." : "Users"}</h1>
+      {response.map((data) => {
+        return (
+          <>
+            <h3 key={data.id}>{data.name}</h3>
+          </>
+        )
+      })}
+    </div>
   );
 }
 
