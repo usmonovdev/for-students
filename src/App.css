@@ -3,3 +3,34 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+.box {
+    display: flex;
+    flex-direction: column;
+
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    margin-bottom: 20px;
+    position: fixed;
+}
+
+button {
+    width: 60px;
+    height: 30px;
+}
+
+div ul{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    position: relative;
+    top: 40px;
+}
+
+li {
+    list-style: none;
+}
