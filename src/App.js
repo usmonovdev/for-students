@@ -1,20 +1,29 @@
 import './App.css';
-import { useFetchData } from './hooks/useFetchData';
-const url = "https://jsonplaceholder.typicode.com/users"
+import { useTranslation } from 'react-i18next';
 
 function App() {
-  const { response, isLoading } = useFetchData(url)
+  
+  const languages = [
+    {
+      language: 'en',
+      id: 1,
+    },
+    {
+      language: 'uz',
+      id: 2,
+    }
+  ]
+
+  const { t, i18n } = useTranslation()
   return (
-    <div>
-      <h1>{isLoading ? "Loading..." : "Users"}</h1>
-      {response.map((data) => {
+    <>
+      {languages.map((lng) => {
         return (
-          <>
-            <h3 key={data.id}>{data.name}</h3>
-          </>
+          <button key={lng.id} onClick={() => i18n.changeLanguage(lng.language)}>{lng.language}</button>
         )
       })}
-    </div>
+      <h1>{t("welcome")}</h1>
+    </>
   );
 }
 
