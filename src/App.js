@@ -1,35 +1,26 @@
-import { useState } from "react";
-import Card from "./components/Card";
-import Form from "./components/Form";
-import { users } from "./user"
+import { useCallback, useState } from "react";
 import "./App.css"
+import Todos from "./components/Todos";
 
 function App() {
-  const id = Date.now()
-  const [user, setUser] = useState(users)
-  const [newUser, setNewUser] = useState({ name: '', job: '', id: null })
+  const [count, setCount] = useState(0)
+  const [todos, setTodos] = useState([])
 
-  const handleAddUser = (e) => {
-    e.preventDefault()
-    if (newUser.name.length <= 0 || newUser.job.length <= 0) {
-      alert("Error in adding users!")
-    } else {
-      setUser([...user, newUser])
-      setNewUser({ name: '', job: '', id: null })
-    }
+  const increment = () => {
+    setCount(c => c + 1)
   }
 
-  const handleGetData = (e) => {
-    e.preventDefault();
-    setNewUser({ ...newUser, [e.target.name]: e.target.value, id })
-  }
-
-  console.log(user);
+  const addTodo = useCallback(() => {
+    setTodos(t => [...t, 'New Todo'])
+  }, [])
 
   return (
     <>
-      <Form newUser={newUser} handleGetData={handleGetData} handleAddUser={handleAddUser} />
-      <Card users={user} />
+      <Todos todos={todos} addTodo={addTodo}/>
+      <div>
+        Count: {count}
+        <button onClick={increment}>+</button>
+      </div>
     </>
   );
 }
