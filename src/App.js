@@ -1,28 +1,13 @@
-import { useCallback, useState } from "react";
 import "./App.css"
-import Todos from "./components/Todos";
+import MemoComponent from "./components/MemoComponent";
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [todos, setTodos] = useState([])
-
-  const increment = () => {
-    setCount(c => c + 1)
-  }
-
-  const addTodo = useCallback(() => {
-    setTodos(t => [...t, 'New Todo'])
-  }, [])
 
   return (
     <>
-      <Todos todos={todos} addTodo={addTodo}/>
-      <div>
-        Count: {count}
-        <button onClick={increment}>+</button>
-      </div>
+      <MemoComponent />
     </>
   );
 }
 
-export default App;
+export default App
