@@ -1,18 +1,15 @@
 import React, { useEffect } from "react";
-import ProductsService from "../api/products";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  productFailure,
-  productStart,
-  productSuccess,
-} from "../reduxes/productsSlice";
-import { Card, CardBody, CardImage } from "../styles/card";
-import { DisplayGrid } from "../styles/displaygrid";
+import { productFailure, productStart, productSuccess } from "../reduxes/productsSlice";
+import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import ProductsService from "../api/products";
+import "../components/home.scss";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.product);
-  console.log(state);
+
   const getProducts = async () => {
     dispatch(productStart());
     const response = await ProductsService.getProducts();
@@ -29,20 +26,33 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
-      {state.isLoading ? <h1>Loading...</h1> : ""}
-      <DisplayGrid gap={"10px"}>
-        {state.products.map((data) => {
-          return (
-            <Card key={data.id}>
-              <CardImage src={data.image} />
-              <CardBody>
-                <h4>{data.title}</h4>
-              </CardBody>
-            </Card>
-          );
-        })}
-      </DisplayGrid>
+    <div className="grid-card">
+      {state.products?.map((product) => {
+        return (
+          <Card sx={{ maxWidth: 345 }} key={product.id}>
+            <CardMedia
+              image={product.image}
+              component="img"
+              alt="green iguana"
+              height="140"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h6" component="div">
+                {product.title.slice(0, 15)}...
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {product.description.slice(0, 90)}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small" variant="contained">Share</Button>
+              <Link to={`/product/${product.id}`}>
+                <Button size="small" variant="outlined">Learn More</Button>
+              </Link>
+            </CardActions>
+          </Card>
+        );
+      })}
     </div>
   );
 };
