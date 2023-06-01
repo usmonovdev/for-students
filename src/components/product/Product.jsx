@@ -6,13 +6,15 @@ import {
   productIdStart,
   productIdSuccess,
 } from "../../reduxes/productBiIdSlice";
-import { Typography } from "@mui/material";
+import ProductLeft from "./ProductLeft";
+import ProductRight from "./ProductRight";
+import Loading from "../Loading";
+import "./procut.scss";
 
 const Product = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { products } = useSelector((state) => state.productById);
-//   console.log(state);
+  const state = useSelector((state) => state.productById);
 
   const getSingleProduct = async () => {
     dispatch(productIdStart());
@@ -29,17 +31,15 @@ const Product = () => {
   }, []);
 
   return (
-    <div>
-      {/* {state.products?.map((product) => {
-        return (
-          <div key={product.id}>
-            <h1>{product.title}</h1>
-          </div>
-        );
-      })} */}
-      <h1>{products.title}</h1>
-
-    </div>
+    <>
+      <Loading loading={state.isLoading} />
+      {!state.isLoading && (
+        <div className="product">
+          <ProductLeft />
+          <ProductRight />
+        </div>
+      )}
+    </>
   );
 };
 
