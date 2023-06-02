@@ -2,10 +2,13 @@ import { Button, Container, Typography } from "@mui/material";
 import React from "react";
 import logo from "../../assets/logo.png";
 import cart from "../../assets/shop.png";
-import "./navbar.scss";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { drawerOpen } from "../../reduxes/selectedProductSlice";
+import "./navbar.scss";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
   return (
     <nav>
       <Container>
@@ -25,17 +28,26 @@ const Navbar = () => {
           <ul className="links">
             <li>
               <Typography variant="h6">
-                <img src={cart} alt="" width="20px" />
+                <img
+                  src={cart}
+                  alt=""
+                  onClick={() => dispatch(drawerOpen())}
+                  width="20px"
+                />
               </Typography>
             </li>
             <li>
               <Link to="/register">
-                <Button variant="outlined" color="white">Sign Up</Button>
+                <Button variant="outlined" color="white">
+                  Sign Up
+                </Button>
               </Link>
             </li>
             <li>
               <Link to="/login">
-                <Button variant="contained" color="white">Sign In</Button>
+                <Button variant="contained" color="white">
+                  Sign In
+                </Button>
               </Link>
             </li>
           </ul>
