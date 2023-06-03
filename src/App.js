@@ -7,6 +7,7 @@ import SignIn from "./components/signIn/SignIn";
 import Footer from "./components/footer/Footer";
 import "./App.css"
 import Product from "./components/product/Product";
+import AddProduct from "./components/addProduct/AddProduct";
 const { palette } = createTheme();
 const { augmentColor } = palette;
 
@@ -37,6 +38,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<SignUp />}/>
           <Route path="/login" element={<SignIn />}/>
+          <Route path="/add-product" element={<AddProduct />}/>
           <Route path="/product/:id" element={<Product />}/>
         </Routes>
       </Container>

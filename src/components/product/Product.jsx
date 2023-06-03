@@ -18,7 +18,7 @@ const Product = () => {
 
   const getSingleProduct = async () => {
     dispatch(productIdStart());
-    const response = await ProductsService.getProductById(id);
+    const response = await ProductsService.getProductById();
     try {
       dispatch(productIdSuccess(response.data));
     } catch (error) {

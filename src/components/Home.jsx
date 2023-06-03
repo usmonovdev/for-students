@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   productFailure,
@@ -14,36 +14,17 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import ProductsService from "../api/products";
 import { Link } from "react-router-dom";
 import Loading from "./Loading";
 import "../components/home.scss";
-import { productIdAddSuccess } from "../reduxes/selectedProductSlice";
 import Cart from "./cart/Cart";
+import AddCart from "./AddCart";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const Home = () => {
-  const key = "ADDED_ITEM";
   const dispatch = useDispatch();
   const { products, isLoading } = useSelector((state) => state.product);
-  const { productSelected } = useSelector((state) => state.selectedProduct);
-
-  const handleSelectedProduct = (e) => {
-    dispatch(productIdAddSuccess([...productSelected, e]));
-  };
-
-  // const getSelectedId = productSelected.map((e) => e.id);
-  // console.log(getSelectedId.indexOf(), "selected");
-
-  // const filterProduct = products.filter(
-  //   (item) => getSelectedId.indexOf(item.id) !== -1
-  // );
-  // console.log(filterProduct, "filtered");
-
-  useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(productSelected));
-  }, [productSelected]);
 
   const getProducts = async () => {
     dispatch(productStart());
@@ -64,15 +45,20 @@ const Home = () => {
     <>
       <Cart />
       <Loading loading={isLoading} />
+      <div className="add">
+        <Link to={"/add-product"}>
+          <AddCircleOutlineIcon color="white" />
+        </Link>
+      </div>
       <div className="grid-card">
         {!isLoading &&
-          products?.map((product, index) => {
+          products?.map((product) => {
             return (
               <Card sx={{ maxWidth: 345 }} key={product.id}>
                 <CardMedia
                   image={product.image}
                   component="img"
-                  alt="green iguana"
+                  alt={product.title}
                   height="140"
                 />
                 <CardContent>
@@ -84,17 +70,7 @@ const Home = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <IconButton
-                    aria-label="add"
-                    size="small"
-                    onClick={() => handleSelectedProduct(product)}
-                  >
-                    {/* {product.id !== getSelectedId ? ( */}
-                    <AddShoppingCartIcon />
-                    {/* // ) : (
-                    //   <RemoveCircleOutlineIcon />
-                    // )} */}
-                  </IconButton>
+                  <AddCart product={product} />
                   <Link to={`/product/${product.id}`}>
                     <Button size="small" variant="outlined">
                       Learn More

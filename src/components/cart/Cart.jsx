@@ -1,52 +1,50 @@
-import styled from "@emotion/styled";
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Drawer,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Drawer, IconButton, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { drawerOpen } from "../../reduxes/selectedProductSlice";
+import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/Delete";
+import "./cart.scss";
 
 const Cart = () => {
-  const { productSelected, open } = useSelector((state) => state.selectedProduct);
-  const dispatch = useDispatch()
-  
+  const { productSelected, open } = useSelector(
+    (state) => state.selectedProduct
+  );
+  const dispatch = useDispatch();
+
   return (
     <div>
       <Drawer anchor="right" open={open}>
-      <Button size="small" variant="outlined" onClick={() => dispatch(drawerOpen())}>
-        close
-      </Button>
-        {productSelected.map((product) => {
-          return (
-            <Card sx={{ maxWidth: 400, maxHeight: 800 }} key={product.id}>
-              <CardMedia
-                image={product.image}
-                component="img"
-                alt="green iguana"
-                width="300px"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h6" component="div">
-                  {product.title.slice(0, 15)}...
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Link to={`/product/${product.id}`}>
-                  <Button size="small" variant="outlined">
-                    Learn More
+        <div className="drawer-box">
+          <IconButton
+            aria-label="delete"
+            onClick={() => dispatch(drawerOpen())}
+            sx={{ width: "40px" }}
+          >
+            <CloseIcon />
+          </IconButton>
+          {productSelected.map((product) => {
+            return (
+              <Box sx={{ boxShadow: 2 }} key={product.id} className="card">
+                <img src={product.image} alt="product image" />
+                <div className="card-body">
+                  <Typography variant="subtitle1">{product.title}</Typography>
+                  <Typography variant="subtitle2">
+                    Price: ${product.price}
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    startIcon={<DeleteIcon />}
+                  >
+                    Delete
                   </Button>
-                </Link>
-              </CardActions>
-            </Card>
-          );
-        })}
+                </div>
+              </Box>
+            );
+          })}
+          <Button variant="contained" sx={{ width: "100%" }}>
+            Check Out
+          </Button>
+        </div>
       </Drawer>
     </div>
   );

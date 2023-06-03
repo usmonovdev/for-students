@@ -8,6 +8,10 @@ const ProductsService = {
     async getProductById(id) {
         const response = await axios.get(`/products/${id}`)
         return response
+    },
+    async addNewProduct(product) {
+        const response = await axios.post(`/products`, {product})
+        return response
     }
 }
 

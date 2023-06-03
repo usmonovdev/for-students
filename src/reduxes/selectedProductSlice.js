@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-const key = "ADDED_ITEM"
+import { key } from "../constants";
 
 export const selectedProductSlice = createSlice({
     name: 'products',

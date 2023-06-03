@@ -1,13 +1,15 @@
-import { Button, Container, Typography } from "@mui/material";
+import { Badge, Button, Container, IconButton, Typography } from "@mui/material";
 import React from "react";
 import logo from "../../assets/logo.png";
-import cart from "../../assets/shop.png";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { drawerOpen } from "../../reduxes/selectedProductSlice";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import "./navbar.scss";
 
 const Navbar = () => {
+  const { productSelected } = useSelector((state) => state.selectedProduct);
+  console.log(productSelected.length);
   const dispatch = useDispatch();
   return (
     <nav>
@@ -27,14 +29,11 @@ const Navbar = () => {
           </ul>
           <ul className="links">
             <li>
-              <Typography variant="h6">
-                <img
-                  src={cart}
-                  alt=""
-                  onClick={() => dispatch(drawerOpen())}
-                  width="20px"
-                />
-              </Typography>
+              <IconButton aria-label="cart" onClick={() => dispatch(drawerOpen())}>
+                <Badge badgeContent={productSelected.length} color="secondary">
+                  <ShoppingCartIcon color="white" />
+                </Badge>
+              </IconButton>
             </li>
             <li>
               <Link to="/register">
