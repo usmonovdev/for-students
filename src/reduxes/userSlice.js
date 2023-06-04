@@ -1,38 +1,49 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { token } from "../constants"
 
 export const userSlice = createSlice({
     name: "user",
     initialState: {
-        isLoading: false,
+        loading: false,
+        error: null,
         user: [],
-        isFailure: null,
+        isLoggedIn: false
     },
     reducers: {
-        userRegisterStart: (state, action) => {
-            state.isLoading = true
+        registerUserStart: (state, action) => {
+            state.loading = true
         },
-        userRegisterSuccess: (state, action) => {
-            state.isLoading = false
+        registerUserSuccess: (state, action) => {
+            state.loading = false
             state.user = action.payload
+            localStorage.setItem(token, JSON.stringify(action.payload.token))
+            state.isLoggedIn = true
         },
-        userregisterFailure: (state, action) => {
-            state.isLoading = false
-            state.isFailure = action.payload
-        },
-        userLoginStart: (state, action) => {
-            state.isLoading = true
-        },
-        userLoginSuccess: (state, action) => {
-            state.isLoading = false
-            state.user = action.payload
-        },
-        userLoginFailure: (state, action) => {
-            state.isLoading = false
-            state.isFailure = action.payload
+        registerUserError: (state, action) => {
+            state.loading = false
+            state.error = action.payload
         },
 
+        loginUserStart: (state, action) => {
+            state.loading = true
+        },
+        loginUserSuccess: (state, action) => {
+            state.loading = false
+            state.user = action.payload
+            localStorage.setItem(token, JSON.stringify(action.payload.token))
+            state.isLoggedIn = true
+        },
+        loginUserError: (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        },
+
+        logOut: (state, action) => {
+            state.isLoggedIn = false
+            state.user = []
+        }
     }
-});
+})
 
-export const { userRegisterStart, userRegisterSuccess, userregisterFailure, userLoginStart, userLoginSuccess, userLoginFailure } = userSlice.actions
+export const { registerUserStart, registerUserSuccess, registerUserError, loginUserStart, loginUserSuccess, loginUserError, logOut } = userSlice.actions
 export default userSlice.reducer

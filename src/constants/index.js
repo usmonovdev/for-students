@@ -1,1 +1,1 @@
-export const key = "ADDED_ITEM"
+export const token = "TOKEN"
